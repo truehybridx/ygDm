@@ -80,4 +80,11 @@ class Card {
      */
     public $image;
 
+    /**
+     * Current quantity in inventory
+     *
+     * @var int
+     */
+    public $quantity;
+
 }

@@ -14,8 +14,18 @@ require_once('includes/cardManager.class.php');
 echo 'hello';
 
 $con = new SQLDB();
+$pdo = $con->getPDO();
 
+$cardManager = new CardManager($pdo);
+//46534755, 25880422, 20858318, 25655502
 
+$card = $cardManager->retrieveCard('46534755');
+
+echo '<pre>';
+var_dump($card);
+echo '</pre>';
+
+$cardManager->saveCardImage($card->image);
 
 //If an ID is provided, go query the card
 

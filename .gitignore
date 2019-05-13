@@ -1,1 +1,3 @@
 includes/app_config.php
+cardImages/*
+!cardImages/.gitkeep
