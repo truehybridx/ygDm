@@ -79,8 +79,8 @@ class CardManager {
 		} else {
 			$card = $this->retrieveCardFromWeb($id);
 			if (!empty($card)) {
+				$card->image = $this->saveCardImage($card->image);
 				$this->saveNewCard($card);
-				$this->saveCardImage($card->image);
 			} else {
 				throw new Exception('Card using the id: ' . $id . ' could not be found.');
 			}
@@ -157,9 +157,9 @@ class CardManager {
 	 * Saves the card image locally
 	 *
 	 * @param   string  $imageUrl  	URL to the image
-	 * @return  bool             		True on success
+	 * @return  string             	Path to the card image
 	 */
-	public function saveCardImage($imageUrl) {
+	private function saveCardImage($imageUrl) {
 		if (empty($imageUrl) || !filter_var($imageUrl, FILTER_VALIDATE_URL)) { 
 			throw new Exception('A valid URL is required to save image.');
 		}
@@ -199,13 +199,14 @@ class CardManager {
 			throw new Exception('An error occurred retrieving card image data from web.');
 		}
 
-		$result = file_put_contents('./cardImages/' . $filename, $image);
+		$imageFile = './cardImages/' . $filename;
+		$result = file_put_contents($imageFile, $image);
 
 		if (empty($result)) {
 			throw new Exception('An error occurred saving the card image locally.');
 		}
 
-		return true;
+		return $imageFile;
 	}
 
 	/**
