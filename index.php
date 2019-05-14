@@ -21,6 +21,21 @@ $cardManager = new CardManager($pdo);
 $cardDisplay = '';
 if (!empty($_POST) && !empty($_POST['cardID'])) {
     
+    if (!empty($_POST['mode']) && !empty($_POST['mode'])) {
+        $quantity = $_POST['quantity'];
+        if ($_POST['mode'] == 'inc') {
+            $quantity++;
+        } else if ($_POST['mode'] == 'dec') {
+            $quantity--;
+        }
+
+        try {
+            $cardManager->updateCardQuantity($_POST['cardID'], $quantity);
+        } catch (Exception $e) {
+            $cardDisplay = $e->getMessage();
+        }
+    }
+
     $card = null;
     try {
         $card = $cardManager->retrieveCard($_POST['cardID']);
@@ -30,6 +45,15 @@ if (!empty($_POST) && !empty($_POST['cardID'])) {
             <p>' . $card->desc . '</p>
             <p>' . $card->attack . ' / ' . $card->defense . '</p>
             <image src="' . $card->image . '" />
+            <form method="POST">
+                <h2>Current Quantity: ' . $card->quantity . '</h2>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="hidden" name="cardID" value="' . $card->id . '">
+                    <input type="hidden" name="quantity" value="' . $card->quantity . '">
+                </div>
+                <button type="submit" name="mode" value="dec" class="btn btn-primary mb-2">Decrement</button>
+                <button type="submit" name="mode" value="inc" class="btn btn-primary mb-2">Increment</button>
+            </form>
         </div>';
     } catch (Exception $e) {
         $cardDisplay = $e->getMessage();
@@ -38,6 +62,23 @@ if (!empty($_POST) && !empty($_POST['cardID'])) {
 }
 
 ?>
+
+
+<!--
+
+https://developers.google.com/web/fundamentals/media/capturing-images/
+
+https://tutorialzine.com/2016/07/take-a-selfie-with-js
+
+https://github.com/naptha/tesseract.js#tesseractjs
+
+
+
+https://kdzwinel.github.io/JS-OCR-demo/
+
+
+
+    -->
 
 <!doctype html>
 <html lang="en">

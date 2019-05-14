@@ -257,7 +257,7 @@ class CardManager {
 	 * @param   int  $quantity  		The quantity to set
 	 * @return  bool             		True on success, false otherwise
 	 */
-	private function updateCardQuantity($id, $quantity) {
+	public function updateCardQuantity($id, $quantity) {
 		if (empty($id) || !is_numeric($id)) {
 			throw new Exception('A valid numeric ID is required.');
 		}
@@ -270,8 +270,8 @@ class CardManager {
 						SET quantity = ?
 						WHERE id = ?";
 		$rs = $this->con->prepare($sql, $this->pdoOptions);
-		$rs->bindParam(1, $id, PDO::PARAM_STR);
-		$rs->bindParam(1, $quantity, PDO::PARAM_INT);
+		$rs->bindParam(1, $quantity, PDO::PARAM_STR);
+		$rs->bindParam(2, $id, PDO::PARAM_STR);
 
 		try {
 			$rs->execute();
