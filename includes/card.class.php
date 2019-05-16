@@ -87,4 +87,11 @@ class Card {
      */
     public $quantity;
 
+    /**
+     * Whether it is new or old
+     *
+     * @var bool
+     */
+    public $new;
+
 }

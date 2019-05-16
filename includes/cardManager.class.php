@@ -76,6 +76,7 @@ class CardManager {
 			$card->attribute = $result['attribute'];
 			$card->image = $result['image'];
 			$card->quantity = $result['quantity'];
+			$card->new = false;
 		} else {
 			$card = $this->retrieveCardFromWeb($id);
 			if (!empty($card)) {
@@ -149,6 +150,7 @@ class CardManager {
 		$card->attribute = (!empty($cardData['attribute'])) ? $cardData['attribute'] : '';
 		$card->image = (!empty($cardData['image_url'])) ? $cardData['image_url'] : '';
 		$card->quantity = 1;
+		$card->new = true;
 
 		return $card;
 	}
@@ -285,47 +287,4 @@ class CardManager {
 
 		return true;
 	}
-
-    public function test() {
-        $rs = $this->pdo->prepare($sql, $this->pdoOptions);
-				$rs->bindParam(1, $appid, PDO::PARAM_STR);
-
-				try {
-					$rs->execute();
-				} catch (Exception $e) {
-					error_log('functions.class.php: getAllRolesWithAppUsage; DB error occurred retrieving roles for appID: ' . $appid);
-					return array();
-				}
-
-
-				$ch = curl_init();
-					
-					$apiVersion = 2;  /*@C1*/
-
-					//$uri = $this->apiBaseURI . "ColleagueApi/session/login";
-					$uri = $this->apiBaseURI . "session/proxy-login";
-
-					curl_setopt_array($ch, array(
-						CURLOPT_URL => $uri,
-						CURLOPT_RETURNTRANSFER => true,
-						CURLOPT_ENCODING => "",
-						CURLOPT_MAXREDIRS => 10,
-						CURLOPT_TIMEOUT => 30,
-						CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-						CURLOPT_CUSTOMREQUEST => "POST",
-						CURLOPT_POSTFIELDS => $json,
-						CURLOPT_HTTPHEADER => array(
-							"Accept: application/". $this->apiEllucianAcceptType .".v" . $apiVersion . "+json",
-							"Cache-Control: no-cache",
-							"Content-Type: application/json",
-						),
-						CURLOPT_SSL_VERIFYPEER => false,
-						CURLOPT_SSL_VERIFYHOST => false
-					));
-					
-					$response  = curl_exec($ch);
-					$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-					curl_close($ch);
-					$ch = null;
-    }
 }
