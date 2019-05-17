@@ -134,7 +134,7 @@ https://kdzwinel.github.io/JS-OCR-demo/
             <form method="POST">
                 <div class="form-group mx-sm-3 mb-2">
                     <label for="cardID" class="sr-only">Enter Card ID:</label>
-                    <input type="text" class="form-control" name="cardID" id="cardID" placeholder="" autofocus>
+                    <input type="text" pattern="[0-9]*" class="form-control" name="cardID" id="cardID" placeholder="" autofocus>
                 </div>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
             </form>
